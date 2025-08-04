@@ -20,20 +20,20 @@ router.get('/', async(req, res) => {
     }
 });
 
-router.get('/:id', async(req, res) => {
-    try {
-        const order = await User.findOne({id: parseInt(req.params.id)});
+// router.get('/:id', async(req, res) => {
+//     try {
+//         const order = await User.findOne({id: parseInt(req.params.id)});
 
-        if(!order){
-            return res.status(404).json({success: false, message : 'order not found'});
-        }
+//         if(!order){
+//             return res.status(404).json({success: false, message : 'order not found'});
+//         }
 
-        const orderCount = await Order.countDocuments({order_id : order_id});
+//         const orderCount = await Order.countDocuments({order_id : order_id});
 
-        res.json({ success: true, user, orderCount});
-    } catch (error) {
-        res.status(500).json({success: false, message : error.message });
-    }
-} );
+//         res.json({ success: true, user, orderCount});
+//     } catch (error) {
+//         res.status(500).json({success: false, message : error.message });
+//     }
+// } );
 
 module.exports = router;
