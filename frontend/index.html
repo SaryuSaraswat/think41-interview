@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Think41 App</title>
+</head>
+<body>
+  <h1>Hello from Frontend</h1>
+  <button onclick="callBackend()">Click to Call Backend</button>
+  <p id="output"></p>
+
+  <script>
+    async function callBackend() {
+      const res = await fetch("http://localhost:5000/");
+      const text = await res.text();
+      document.getElementById("output").innerText = text;
+    }
+  </script>
+</body>
+</html>
