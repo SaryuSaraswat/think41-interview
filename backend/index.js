@@ -1,31 +1,20 @@
-
-const csv = require('csvtojson');
-const path = require('path');
+const express = require('express');
 const connectDB = require('./db');
+const customerRoute = require('./Routes/customerRoute');
+const run = require('./task1');
 
-const usersCSV = path.join(__dirname, 'users.csv');
-const ordersCSV = path.join(__dirname, 'orders.csv');
+const app = express();
+const PORT = 4000;
 
-async function loadCSVtoMongo(csvFilePath, collection){
+app.use(express.json());
+app.use('/api/customers', customerRoute);
+
+app.listen(PORT, async () => {
   try{
-    const jsonArray = await csv().fromFile(csvFilePath);
-    const result = await collection.insertMany(jsonArray);
-    console.log(`Inserte ${result.insertedCount} into ${collection.collectionName}`);
-  }catch(err){
-    console.log(err);
+      await connectDB();
+      console.log(`Server running on http://localhost:${PORT}`);
+  }catch(error){
+    console.error('Failed to start server : ', error);
   }
-}
-async function run(){
-    const db = await connectDB();
-    const usersCollection = db.collection('users');
-    const ordersCollection = db.collection('orders');
-    
-    await loadCSVtoMongo(usersCSV, usersCollection);
-    await loadCSVtoMongo(ordersCSV, ordersCollection);
+});
 
-    console.log('Orders load successfully');
-    process.exit(0);
-  
-}
-
-run();
